@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Receive change notification</h1>
+<div mat-dialog-content>
+  <!-- <p>What's your favorite email?</p> -->
+  <mat-form-field appearance="fill">
+    <mat-label>Email ID</mat-label>
+    <input matInput type="email" [(ngModel)]="data.emailID">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" class="padL padR">No Thanks</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="data" cdkFocusInitial>Submit</button>
+</div>
