@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AMAZON, Product } from './model/Product';
 
 export interface Monitor {
@@ -27,29 +28,56 @@ export class AppComponent implements OnInit {
   name: string | undefined;
   email: string | undefined;
   monitor: Monitor | undefined;
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+
+  timeLeft: number = 0;
+  interval: any;
+
+startTimer() {
+  this.timeLeft =0;
+    this.interval = setInterval(() => {
+        this.timeLeft++;
+    },1000)
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+  constructor(private http: HttpClient, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.productList = [];
+    
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000
+    });
   }
 
   ngOnInit() {
     // Simple GET request with response type <any>
     this.http.get<Array<Product>>('http://localhost:8080/api/product').subscribe(data => {
       this.productList = data;
-      console.log(JSON.stringify(this.productList));
-      console.log(this.productList);
+      // console.log(JSON.stringify(this.productList));
+      // console.log(this.productList);
 
     })
   }
 
   search(keyword: string) {
+    this.startTimer();
     console.log(this.keyword);
     this.spin = true;
     this.http.get<Array<Product>>('http://localhost:8080/api/scraper/comparePrice/' + keyword).subscribe(data => {
       this.productList = data;
       this.spin = false;
 
-      console.log(this.productList);
-    })
+      // console.log(this.productList);
+      this.pauseTimer();
+    },
+    error =>{
+      this.pauseTimer();
+      this.openSnackBar("ERROR", "Try Again");
+    }
+    )
   }
 
   goToLink(url: string) {

@@ -17,9 +17,11 @@
   </mat-form-field>
 
 </form>
-
-<mat-spinner *ngIf="spin"></mat-spinner>
-
+<!-- <button (click)='startTimer()'>Start Timer</button>
+<button (click)='pauseTimer()'>Pause</button> -->
+<!-- <h3>{{timeLeft}}</h3> -->
+<!-- <mat-spinner *ngIf="spin"></mat-spinner> -->
+<mat-progress-bar mode="indeterminate" *ngIf="spin"></mat-progress-bar>
 <!-- {{productList}} -->
 
 <!-- <div *ngFor="let product of productList; index as i; first as isFirst">
@@ -80,6 +82,17 @@
         (click)="goToLink('www.bestbuy.com'+ product.priceList.BESTBUY.url)">
         <mat-icon>attach_money</mat-icon>{{product.priceList.BESTBUY.price}}</button>
         <button mat-fab color="accent" aria-label="Example icon button with a home icon" class="padL" (click)="openDialog(product, product.priceList.BESTBUY, 'BESTBUY')">
+          <mat-icon>notifications</mat-icon>
+        </button>
+    </mat-card-actions>
+    <mat-divider *ngIf="product.priceList.COSTCO.price"></mat-divider>
+    <mat-card-actions *ngIf="product.priceList.COSTCO.price">
+      <img src="assets/logos/Costco.svg" width="100px">
+      <span class="example-spacer"></span>
+      <button mat-fab extended color="primary" class="btn"
+        (click)="goToLink('www.costco.com'+ product.priceList.COSTCO.url)">
+        <mat-icon>attach_money</mat-icon>{{product.priceList.COSTCO.price}}</button>
+        <button mat-fab color="accent" aria-label="Example icon button with a home icon" class="padL" (click)="openDialog(product, product.priceList.COSTCO, 'COSTCO')">
           <mat-icon>notifications</mat-icon>
         </button>
     </mat-card-actions>
