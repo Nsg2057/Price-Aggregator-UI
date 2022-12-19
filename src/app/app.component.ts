@@ -57,7 +57,7 @@ startTimer() {
     this.http.get<Array<Product>>('http://localhost:8080/api/product').subscribe(data => {
       this.productList = data;
       // console.log(JSON.stringify(this.productList));
-      // console.log(this.productList);
+      console.log(this.productList);
 
     })
   }
@@ -69,13 +69,15 @@ startTimer() {
     this.http.get<Array<Product>>('http://localhost:8080/api/scraper/comparePrice/' + keyword).subscribe(data => {
       this.productList = data;
       this.spin = false;
-
-      // console.log(this.productList);
+      console.log(this.productList);
       this.pauseTimer();
     },
-    error =>{
+    error  =>{
+      this.spin = false;
       this.pauseTimer();
       this.openSnackBar("ERROR", "Try Again");
+      console.log(error);
+      
     }
     )
   }
